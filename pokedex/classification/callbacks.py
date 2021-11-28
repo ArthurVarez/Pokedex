@@ -1,9 +1,10 @@
 import typing as t
-import sys
+import os
+
 from tensorflow.keras import callbacks as c
 
 
-if(os.getcwd()=="/content"):
+if os.getcwd()== "/content":
     import config
 else:
     from . import config

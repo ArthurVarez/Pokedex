@@ -1,19 +1,21 @@
 import typing as t
-
 import tensorflow as tf
 import sys
+import os
+
 from tensorflow.keras import Model
 from tensorflow.keras.callbacks import Callback
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from . import resnet
-from . import vgg16
 from . import alexnet
-if os.getcwd()=="/content":
+
+if os.getcwd() == "/content":
     sys.path.append("/content/gdrive/MyDrive/Colab Notebooks/ProjetDM/Deep_learning_classification/config")
     import config
 else:
     from .. import config
+
 
 def get_model() -> Model:
     raw_model: t.Dict = config.get("models")
@@ -51,10 +53,10 @@ def compile_model(model: Model) -> None:
 
 
 def train(
-    model: Model,
-    train_dataset: ImageDataGenerator,
-    valid_dataset: ImageDataGenerator,
-    callbacks: t.List[Callback],
+        model: Model,
+        train_dataset: ImageDataGenerator,
+        valid_dataset: ImageDataGenerator,
+        callbacks: t.List[Callback],
 ) -> None:
     epochs = config.get("training", "epochs")
     verbose = config.get("training", "verbose", default=1)

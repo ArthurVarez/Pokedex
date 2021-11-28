@@ -1,7 +1,7 @@
 import typing as t
-
 import tensorflow as tf
 import sys
+import os
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
@@ -14,10 +14,10 @@ from tensorflow.keras.layers import (
 )
 from tensorflow.keras import backend as K
 
-if os.getcwd()=="/content":
+if os.getcwd() == "/content":
     sys.path.append("/content/gdrive/MyDrive/Colab Notebooks/ProjetDM/Projet/pokedex/classification/config")
     import config
-else:    
+else:
     from .. import config
 
 
