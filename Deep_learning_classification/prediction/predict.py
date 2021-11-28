@@ -36,8 +36,8 @@ def inference(data):
         round_prediction = [i for i in predictions]
         prediction_dict = dict(zip(classes, round_prediction))
         sorted_prediction_dict = dict(sorted(prediction_dict.items(), key=lambda x: x[1], reverse=True))
-        dic = list(sorted_prediction_dict.keys())[:2]
-        for elem in dic:
+        keys = list(sorted_prediction_dict.keys())[:2]
+        for elem in keys:
             probability = float(sorted_prediction_dict[elem] * 100)
             res += str(f"\t{elem} : {round(probability, 2)}%\n")
         res += "\n"
