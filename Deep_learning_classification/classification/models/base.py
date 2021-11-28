@@ -8,7 +8,6 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from .. import config
 from . import resnet
-from . import vgg16
 from . import alexnet
 
 
@@ -19,9 +18,6 @@ def get_model() -> Model:
     if name == "alexnet":
         print("\nUsing AlexNet as image classifier.\n")
         return alexnet.AlexNet.build_alexnet()
-    if name == "vgg16":
-        print("\nUsing VGG16 as image classifier.\n")
-        return vgg16.VGG16.build_vgg16()
     if name == "resnet":
         raw_model: t.Dict = config.get("models")
         layers = raw_model["layers"]
@@ -73,13 +69,3 @@ def train(
         verbose=verbose,
         callbacks=callbacks,
     )
-
-
-def evaluate(
-    model: Model,
-    eval_dataset: ImageDataGenerator
-) -> None:
-    batch_size = config.get("evaluation", "batch_size")
-
-    model.evaluate(eval_dataset,
-                   batch_size=batch_size)

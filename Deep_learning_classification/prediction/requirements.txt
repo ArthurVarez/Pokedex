@@ -1,2 +1,3 @@
 numpy==1.18.4
 gradio==2.4.6
+tensorflow-gpu==2.4.0
