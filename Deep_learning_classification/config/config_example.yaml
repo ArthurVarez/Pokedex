@@ -1,8 +1,8 @@
 models:
   name: resnet
   layers: 18
-  img_rows: 63
-  img_cols: 63
+  img_rows: 62
+  img_cols: 62
   img_channels: 3
   nb_classes: 10
 

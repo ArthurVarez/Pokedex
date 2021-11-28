@@ -1,7 +1,6 @@
 import gradio as gr
 import os
 import numpy as np
-import zipfile
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
@@ -19,7 +18,6 @@ def load_models():
     for filename in os.listdir(path):
         path_ = path + '/' + filename
         if filename.endswith(".h5"):
-            # models_.append(load_model(path_))
             models_[filename] = load_model(path_)
     global models
     models = models_

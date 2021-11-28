@@ -4,6 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "*"
+gradio = "*"
+tensorflow-gpu = "==2.4.0"
+pyyaml = "*"
+matplotlib = "*"
+scipy = "*"
 
 [dev-packages]
 
