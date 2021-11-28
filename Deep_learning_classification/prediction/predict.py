@@ -14,6 +14,8 @@ global classes
 def load_models():
   models_ = list()
   path = os.path.join(os.getcwd(),"models")
+  if os.path.isdir(path) is false : 
+    return
   for filename in os.listdir(path):
     path_ = path+'/'+filename
     if filename.endswith(".h5"):
@@ -28,6 +30,7 @@ def load_models():
         raise
   models = models_
 
+
 def inference(data):
     
     img = image.img_to_array(data)
@@ -41,7 +44,7 @@ def inference(data):
       prediction_dict = dict(zip(classes,round_prediction))
       sorted_prediction_dict = dict(sorted(prediction_dict.items(),key = lambda x:x[1],reverse=True))
       _ = list(sorted_prediction_dict.keys())[0]
-      res+=str(f"{res},{sorted_prediction_dict[res]}\n")
+      res+=str(f"{_},{sorted_prediction_dict[_]}\n")
     return res
 
 
