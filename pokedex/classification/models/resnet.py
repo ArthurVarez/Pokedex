@@ -3,6 +3,7 @@ Python implementation of DNN ResNet, using Keras 2.4.0 and Tensorflow 2.3.0.
 Adapted from https://github.com/raghakot/keras-resnet.
 """
 import typing as t
+import sys
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (
@@ -21,7 +22,11 @@ from tensorflow.keras.layers import (
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras import backend as K
 
-from .. import config
+if os.getcwd()=="/content":
+    sys.path.append("/content/gdrive/MyDrive/Colab Notebooks/ProjetDM/Projet/pokedex/classification/config")
+    import config
+else:    
+    from .. import config
 
 
 def _handle_dim_ordering():

@@ -1,9 +1,12 @@
 import typing as t
-
+import sys
 from tensorflow.keras import callbacks as c
 
-from . import config
 
+if(os.getcwd()=="/content"):
+    import config
+else:
+    from . import config
 
 AVAILABLE_CALLBACKS: t.Dict[str, t.Type[c.Callback]] = {
     "reduce_lr_on_plateau": c.ReduceLROnPlateau,

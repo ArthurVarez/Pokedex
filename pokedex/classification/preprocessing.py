@@ -1,11 +1,14 @@
 import typing as t
 import numpy as np
-
+import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 import tensorflow as tf
 
-from . import config
+if os.getcwd()=="/content":
+    import config
+else:
+    from . import config
 
 _Dataset = t.Tuple[np.ndarray, np.ndarray]
 

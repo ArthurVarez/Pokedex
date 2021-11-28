@@ -1,6 +1,7 @@
 import typing as t
 
 import tensorflow as tf
+import sys
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
@@ -13,7 +14,11 @@ from tensorflow.keras.layers import (
 )
 from tensorflow.keras import backend as K
 
-from .. import config
+if os.getcwd()=="/content":
+    sys.path.append("/content/gdrive/MyDrive/Colab Notebooks/ProjetDM/Projet/pokedex/classification/config")
+    import config
+else:    
+    from .. import config
 
 
 def _handle_dim_ordering():

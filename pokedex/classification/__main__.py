@@ -3,13 +3,20 @@ import click
 import typing as t
 from pathlib import Path
 from shutil import copyfile
+import sys
 
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-from . import callbacks, config, models
-from .preprocessing import create_dataset
+if(os.getcwd()=="/content"):
+    
+    import callbacks, config, models
+    from preprocessing import create_dataset
+    from callbacks import get_basename
 
-from .callbacks import get_basename
+else:
+    from . import callbacks, config, models
+    from .preprocessing import create_dataset
+    from .callbacks import get_basename
 
 
 def _save_config(config_file_path: str) -> None:
@@ -75,7 +82,15 @@ def main(config_file: str) -> None:
     _save_config(config_file)
     train_ds, valid_ds = _prepare_data()
     _train(train_ds, valid_ds)
-
+    
+def main_colab(config_file: str) -> None:
+    _configure(config_file)
+    #_save_config(config_file)
+    train_ds, valid_ds = _prepare_data()
+    _train(train_ds, valid_ds)
 
 if __name__ == '__main__':
-    main()
+    if(os.getcwd()=="/content"):
+        main_colab("/content/gdrive/Pokedex/pokedex/config/config_example.yaml")
+    else:
+        main()
