@@ -91,6 +91,6 @@ def main_colab(config_file: str) -> None:
 
 if __name__ == '__main__':
     if(os.getcwd()=="/content"):
-        main_colab("/content/gdrive/Pokedex/pokedex/config/config_example.yaml")
+        main_colab("/content/gdrive/MyDrive/Pokedex/pokedex/config/config_example.yaml")
     else:
         main()
