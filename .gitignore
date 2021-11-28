@@ -151,3 +151,4 @@ best_models/
 trainings/
 *.yaml
 !config_example.yaml
+.idea/
