@@ -5,28 +5,44 @@ import sys
 from tensorflow import load_model
 from tensorflow.keras.preprocessing import image
 from tensorflow import keras
-
+import zipfile
 
 global model_path
-global model
+global models
 global classes
+
+def load_models():
+  models_ = list()
+  path = os.path.join(os.getcwd(),"models")
+  for filename in os.listdir(path):
+    path_ = path+'/'+filename
+    if filename.endswith(".h5"):
+      models_.append(load_model(path_))
+    if filename.endswith(".zip") | filename.endswith(".rar"):
+      try:
+        with zipfile.ZipFile(path_, 'r') as zip_ref:
+          zip_ref.extractall(path_)
+
+        
+      except Exception as e:
+        raise
+  models = models_
+
 def inference(data):
     
     img = image.img_to_array(data)
     img /= 255
     img = np.expand_dims(img, axis=0)
-    
-  
-    prediction = model.predict(img)[0]
-    round_prediction = [round(i, 5) for i in prediction]
-    prediction_index = np.argmax(round_prediction)
-    prediction_dict = dict(zip(classes,round_prediction))
-    sorted_prediction_dict = dict(sorted(prediction_dict.items(),key = lambda x:x[1],reverse=True))
-    print(sorted_prediction_dict)
     res = ""
-    for k,v in sorted_prediction_dict.items():
-      res+=(f"class: {k} , probability:{v} \n")
-    return str(sorted_prediction_dict)
+    for model in models:
+      predictions = model.predict(img)[0]
+      round_prediction = [round(i, 5) for i in prediction]
+      prediction_index = np.argmax(round_prediction)
+      prediction_dict = dict(zip(classes,round_prediction))
+      sorted_prediction_dict = dict(sorted(prediction_dict.items(),key = lambda x:x[1],reverse=True))
+      _ = list(sorted_prediction_dict.keys())[0]
+      res+=str(f"{res},{sorted_prediction_dict[res]}\n")
+    return res
 
 
 
