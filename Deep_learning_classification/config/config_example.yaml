@@ -1,0 +1,73 @@
+models:
+  name: resnet
+  layers: 18
+  img_rows: 63
+  img_cols: 63
+  img_channels: 3
+  nb_classes: 10
+
+  dropout: 0.2
+  activation: 'relu'
+  final_activation: 'softmax'
+  padding: 'same'
+
+  dataset: '10_pokemons'
+
+  loss: 'categorical_crossentropy'
+  optimizer: 'adam'
+  learning_rate: 1.0e-3
+  momentum: 0.9
+  metrics:
+    - 'accuracy'
+  class_mode: 'categorical'
+
+  basic_block: full_preactivation_basic_block
+  bottleneck: full_preactivation_bottleneck
+
+training:
+  batch_size: 8
+  epochs: 100
+  verbose: 1
+
+  shuffle: true
+
+  data_augmentation:
+    rescale: 1./255
+    zoom_range: 0.2
+    rotation_range: 30
+    width_shift_range: 0.1
+    height_shift_range: 0.1
+    horizontal_flip: true
+
+validation:
+  batch_size: 8
+
+  shuffle: false
+
+  data_augmentation:
+    rescale: 1./255
+
+callbacks:
+  reduce_lr_on_plateau:
+    monitor: 'val_loss'
+    factor: 0.1
+    patience: 5
+    min_lr: 0.5e-6
+  early_stopping:
+    monitor: 'val_loss'
+    min_delta: 0.001
+    patience: 20
+  csv_logger:
+    filename: 'auto'
+  tensorboard:
+    log_dir: 'auto'
+    histogram_freq: 1
+  model_checkpoint:
+    filepath: 'auto'
+    verbose: 1
+    monitor: 'val_loss'
+    mode: 'min'
+    save_best_only: true
+
+filepath:
+  root_folder_path: "F:/Programmation/UQAC/data_mining/projet/Deep_learning_classification"
