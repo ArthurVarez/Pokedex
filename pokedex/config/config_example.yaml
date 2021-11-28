@@ -70,4 +70,4 @@ callbacks:
     save_best_only: true
 
 filepath:
-  root_folder_path: "F:/Programmation/UQAC/data_mining/projet/Deep_learning_classification"
+  root_folder_path: "F:/Programmation/UQAC/data_mining/projet/pokedex"
