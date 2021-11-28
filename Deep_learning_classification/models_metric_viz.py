@@ -6,7 +6,7 @@ import seaborn as sns
 
 def LoadTensorboards():
 	df_tensorboards = dict()
-	path = "Tensorboards"
+	path = "metrics"
 	path_to_= os.path.join(os.getcwd(),path)
 	for csv in os.listdir(path_to_):
 	    if csv.endswith("csv"):
@@ -27,7 +27,7 @@ def showmcuvemodel(title,df):
     axes[1].plot(df.epoch,df.loss,df.epoch,df.accuracy)
     axes[1].set_xlabel('epoch')
     axes[1].set_ylabel('test set metric (value loss and value accuracy)')
-    newpath = os.path.join(os.getcwd(),"Tensorboards/metrics")
+    newpath = os.path.join(os.getcwd(),"metrics/metricsviz")
     folderexist(newpath)
     plt.savefig(f"{newpath}/{title}.png")
    
@@ -44,7 +44,7 @@ def showmetrics(df,metric1,metric2):
                         metric2: list_metric2}, index=index)
     ax = df.plot.bar(rot=45, color={metric1: "green", metric2: "red"})
     
-    newpath = os.path.join(os.getcwd(), 'Tensorboards/metrics')
+    newpath = os.path.join(os.getcwd(), 'metrics/metricsviz')
     folderexist(newpath)
     plt.savefig(os.path.join(os.getcwd(),f"{newpath}/{metric1},{metric2},{index}.png"))
 
