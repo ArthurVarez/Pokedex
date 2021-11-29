@@ -2,14 +2,18 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from pathlib import Path
+
 
 def LoadTensorboards():
     df_tensorboards = dict()
-    path = ""
-    path_to_ = os.path.join(os.getcwd(), path)
-    for csv in os.listdir(path_to_):
+    current_directory = Path.cwd()
+    parent_directory = current_directory.parent.absolute()
+    metrics_path = str(Path.joinpath(parent_directory, "metrics"))
+
+    for csv in os.listdir(metrics_path):
         if csv.endswith("csv"):
-            df_tensorboards[str(csv)] = (pd.read_csv(os.path.join(path_to_, csv)))
+            df_tensorboards[str(csv)] = (pd.read_csv(os.path.join(metrics_path, csv)))
     return df_tensorboards
 
 
@@ -32,9 +36,12 @@ def showmcuvemodel(title, df):
     axes[1].set_ylabel('test set metric (validation accuracy vs training accuracy)')
     axes[1].legend()
 
-    newpath = os.path.join(os.getcwd(), "metricsviz")
-    folderexist(newpath)
-    plt.savefig(f"{newpath}/{title}.png")
+    current_directory = Path.cwd()
+    parent_directory = current_directory.parent.absolute()
+    metricsviz_path = str(Path.joinpath(parent_directory, "metrics/metricsviz"))
+
+    folderexist(metricsviz_path)
+    plt.savefig(f"{metricsviz_path}/{title}.png")
 
 
 def showmetrics(df, metric1, metric2):
@@ -49,9 +56,12 @@ def showmetrics(df, metric1, metric2):
                        metric2: list_metric2}, index=index)
     ax = df.plot.bar(rot=45, color={metric1: "green", metric2: "red"})
 
-    newpath = os.path.join(os.getcwd(), 'metricsviz')
-    folderexist(newpath)
-    plt.savefig(os.path.join(os.getcwd(), f"{newpath}/{metric1},{metric2},{index}.png"))
+    current_directory = Path.cwd()
+    parent_directory = current_directory.parent.absolute()
+    metricsviz_path = str(Path.joinpath(parent_directory, "metrics/metricsviz"))
+
+    folderexist(metricsviz_path)
+    plt.savefig(f"{metricsviz_path}/{metric1},{metric2},{index}.png")
 
 
 def folderexist(newpath: str):

@@ -4,6 +4,7 @@ import numpy as np
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
+from pathlib import Path
 
 global model_path
 global models
@@ -12,11 +13,13 @@ global classes
 
 def load_models():
     models_ = dict()
-    path = os.path.join(os.getcwd(), "models")
-    if os.path.isdir(path) is False:
+    current_directory = Path.cwd()
+    parent_directory = current_directory.parent.absolute()
+    models_path = str(Path.joinpath(parent_directory, "best_models"))
+    if os.path.isdir(models_path) is False:
         return
-    for filename in os.listdir(path):
-        path_ = path + '/' + filename
+    for filename in os.listdir(models_path):
+        path_ = models_path + '/' + filename
         if filename.endswith(".h5"):
             models_[filename] = load_model(path_)
     global models
@@ -24,11 +27,13 @@ def load_models():
 
 
 def inference(data):
-    img = image.img_to_array(data)
-    img /= 255
-    img = np.expand_dims(img, axis=0)
     res = ""
     for name, model in models.items():
+        # dim = list(name.split("_"))[1][1:-1]
+        # x, y = dim.split("-")
+        img = image.img_to_array(data)
+        img /= 255
+        img = np.expand_dims(img, axis=0)
         res += f"Model : {name[:-3]}\n\n"
         predictions = model.predict(img)[0]
         round_prediction = [i for i in predictions]
@@ -46,6 +51,7 @@ if __name__ == "__main__":
     load_models()
     classes = ["Arbok", "Aspicot", "Caninos", "Chetiflor", "Dracolosse", "Ectoplasma", "Evoli", "Hypotrempe",
                "Rondoudou", "Ronflex"]
+
     gr.Interface(fn=inference,
                  inputs=gr.inputs.Image(shape=(128, 128)),
                  outputs="text").launch(share=True, debug=True)
