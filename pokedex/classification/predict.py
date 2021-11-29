@@ -53,5 +53,5 @@ if __name__ == "__main__":
                "Rondoudou", "Ronflex"]
 
     gr.Interface(fn=inference,
-                 inputs=gr.inputs.Image(shape=(128, 128)),
+                 inputs=gr.inputs.Image(shape=(64, 64)),
                  outputs="text").launch(share=True, debug=True)

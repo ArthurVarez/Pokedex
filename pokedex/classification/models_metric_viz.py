@@ -41,6 +41,9 @@ def showmcuvemodel(title, df):
     metricsviz_path = str(Path.joinpath(parent_directory, "metrics/metricsviz"))
 
     folderexist(metricsviz_path)
+    title = title.split(".")
+    title = title[0] + "." + title[1]
+
     plt.savefig(f"{metricsviz_path}/{title}.png")
 
 

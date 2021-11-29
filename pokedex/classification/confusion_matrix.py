@@ -13,13 +13,13 @@ dataset = "10_pokemons"
 current_directory = Path.cwd()
 parent_directory = current_directory.parent.absolute()
 test_data_path = Path.joinpath(parent_directory, f"data/{dataset}/validation")
-chosen_model = "resnet18_(128-128)_0.001_16_051-0.950450-0.907895"
+chosen_model = "resnet18_(64-64)_0.001_16_042-0.918018-0.901316"
 model_path = Path.joinpath(parent_directory, f"best_models/{chosen_model}.h5")
 
 test_datagen = ImageDataGenerator(rescale=1. / 255)
 
 validation_generator = test_datagen.flow_from_directory(test_data_path,
-                                                        target_size=(128, 128),
+                                                        target_size=(64, 64),
                                                         batch_size=1,
                                                         shuffle=False,
                                                         class_mode='categorical')
@@ -38,34 +38,60 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
 disp.plot(cmap=plt.cm.Blues)
 plt.show()
 
-TruePositive = np.diag(cm)
-FalsePositive = []
-for i in range(len(labels)):
-    FalsePositive.append(sum(cm[:, i]) - cm[i, i])
-FalseNegative = []
-for i in range(len(labels)):
-    FalseNegative.append(sum(cm[i, :]) - cm[i, i])
-    TrueNegative = []
-for i in range(len(labels)):
-    temp = np.delete(cm, i, 0)  # delete ith row
-    temp = np.delete(temp, i, 1)  # delete ith column
-    TrueNegative.append(sum(sum(temp)))
+# TruePositive = np.diag(cm)
+# FalsePositive = []
+# for i in range(len(labels)):
+#     FalsePositive.append(sum(cm[:, i]) - cm[i, i])
+# FalseNegative = []
+# for i in range(len(labels)):
+#     FalseNegative.append(sum(cm[i, :]) - cm[i, i])
+#     TrueNegative = []
+# for i in range(len(labels)):
+#     temp = np.delete(cm, i, 0)  # delete ith row
+#     temp = np.delete(temp, i, 1)  # delete ith column
+#     TrueNegative.append(sum(sum(temp)))
+#
+# print(TruePositive)
+# print(FalsePositive)
+# print(FalseNegative)
+# print(TrueNegative)
+#
+# data = {"TruePositive": TruePositive, "FalsePositive": FalsePositive, "FalseNegative": FalseNegative,
+#         "TrueNegative": TrueNegative}
+# metrics = pd.DataFrame(index=labels, data=data)
+# metrics["TVP"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalseNegative)
+# metrics["TFP"] = metrics.FalsePositive / (metrics.FalsePositive + metrics.TrueNegative)
+# metrics["Precision"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalsePositive)
+# kappa = sum(TruePositive) / validation_generator.samples
+#
+# try:
+#     metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
+# except FileNotFoundError:
+#     Path.mkdir(Path.joinpath(parent_directory, "best_models/eval"))
+#     metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
 
-print(TruePositive)
-print(FalsePositive)
-print(FalseNegative)
-print(TrueNegative)
+FP = cm.sum(axis=0) - np.diag(cm)
+FN = cm.sum(axis=1) - np.diag(cm)
+TP = np.diag(cm)
+TN = cm.sum() - (FP + FN + TP)
 
-data = {"TruePositive": TruePositive, "FalsePositive": FalsePositive, "FalseNegative": FalseNegative,
-        "TrueNegative": TrueNegative}
-metrics = pd.DataFrame(index=labels, data=data)
-metrics["TVP"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalseNegative)
-metrics["TFP"] = metrics.FalsePositive / (metrics.FalsePositive + metrics.TrueNegative)
-metrics["Precision"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalsePositive)
-kappa = sum(TruePositive) / validation_generator.samples
+# Sensitivity, hit rate, recall, or true positive rate
+TPR = TP/(TP+FN)
+# Specificity or true negative rate
+TNR = TN/(TN+FP)
+# Precision or positive predictive value
+PPV = TP/(TP+FP)
+# Negative predictive value
+NPV = TN/(TN+FN)
+# Fall out or false positive rate
+FPR = FP/(FP+TN)
+# False negative rate
+FNR = FN/(TP+FN)
+# False discovery rate
+FDR = FP/(TP+FP)
 
-try:
-    metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
-except FileNotFoundError:
-    Path.mkdir(Path.joinpath(parent_directory, "best_models/eval"))
-    metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
+# Overall accuracy
+ACC = (TP+TN)/(TP+FP+FN+TN)
+
+print(f"Recall : {TPR}")
+print(f"Precision : {PPV}")

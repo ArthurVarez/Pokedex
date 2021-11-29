@@ -1,8 +1,11 @@
 import os
-from shutil import copyfile
 
-root_dir = "F:/Programmation/UQAC/data_mining/projet/Deep_learning_classification"
-dataset_name = "10_pokemons"
+from shutil import copyfile
+from pathlib import Path
+
+current_directory = Path.cwd()
+root_dir = str(current_directory.parent.absolute())
+dataset_name = "13_pokemons"
 
 
 def _move_to_dir(path: str):
