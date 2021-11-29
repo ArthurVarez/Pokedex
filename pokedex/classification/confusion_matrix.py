@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from sklearn.metrics import confusion_matrix
 from tensorflow.keras.models import Sequential
@@ -32,3 +33,38 @@ print(cm)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
 disp.plot(cmap=plt.cm.Blues)
 plt.show()
+
+TruePositive = np.diag(cm)
+FalsePositive = []
+for i in range(len(labels)):
+    FalsePositive.append(sum(cm[:,i]) - cm[i,i])
+FalseNegative = []
+for i in range(len(labels)):
+    FalseNegative.append(sum(cm[i,:]) - cm[i,i])
+    TrueNegative = []
+for i in range(len(labels)):
+    temp = np.delete(cm, i, 0)   # delete ith row
+    temp = np.delete(temp, i, 1)  # delete ith column
+    TrueNegative.append(sum(sum(temp)))
+    
+print(TruePositive)
+print(FalsePositive)
+print(FalseNegative)
+print(TrueNegative)
+
+
+data = {"TruePositive":TruePositive,"FalsePositive":FalsePositive,"FalseNegative":FalseNegative,
+        "TrueNegative":TrueNegative}
+metrics = pd.DataFrame(index = labels,data=data)
+metrics["TVP"] = metrics.TruePositive/(metrics.TruePositive+metrics.FalseNegative)
+metrics["TFP"] = metrics.FalsePositive/(metrics.FalsePositive+metrics.TrueNegative)
+metrics["Precision"] = metrics.TruePositive/(metrics.TruePositive+metrics.FalsePositive)
+kappa = sum(TruePositive)/validation_generator.samples
+
+metrics.to_csv(f"./{model[2:]}_metrics_kappa={kappa}")
+
+
+
+
+
+
