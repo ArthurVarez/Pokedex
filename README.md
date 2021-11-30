@@ -109,3 +109,17 @@ level. Then, after modifying the variable "dataset_name" accordingly to your dat
 It should have created your split dataset into the *data* folder. You can choose the splitting ratio by modifying the 
 value of "ratio" at the end of the file.
 
+Run the solution in Google Colab :
+-----------
+
+To run this solution in Colab you need to : 
+
+    - upload the directory in your Drive Homepage
+    - Open a new Colab Notebook
+    - excute this instructions :
+    
+        !pip install tensorflow
+        import tensorflow
+        from google.colab import drive
+        drive.mount('/content/gdrive/',force_remount=True)
+        !python3 "/content/gdrive/MyDrive/Pokedex/pokedex/classification/the_script_you_want_to_run.py"
