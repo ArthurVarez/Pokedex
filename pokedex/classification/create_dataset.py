@@ -5,7 +5,7 @@ from pathlib import Path
 
 current_directory = Path.cwd()
 root_dir = str(current_directory.parent.absolute())
-dataset_name = "13_pokemons"
+dataset_name = "10_pokemons"
 
 
 def _move_to_dir(path: str):
