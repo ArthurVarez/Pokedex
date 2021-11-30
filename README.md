@@ -25,9 +25,9 @@ When it is done, let's continue the installation :
 
     $ pip install pipenv
 
-- once it is installed and well configured, run your environment :
+- once it is installed and well configured, run your environment (when being at the root folder) :
 
-    $ pipenv shell
+    $ pipenv install
     
 Now, everything should be well installed and the code should run properly. However, considering the fact that we're using Keras,
 the installation of TensorFlow could not work. If so, follow [TensorFlow official installation guide](https://www.tensorflow.org/install?hl=fr).
