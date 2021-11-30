@@ -17,7 +17,7 @@ Go the root of the project (i.e. in the *projet* folder) and follow the instruct
 
     $ pip --version
 
-if not, `install it <https://pip.pypa.io/en/stable/installing/>`_.
+if not, [install it](https://pip.pypa.io/en/stable/installing/).
 
 When it is done, let's continue the installation :
 
@@ -30,7 +30,7 @@ When it is done, let's continue the installation :
     $ pipenv shell
     
 Now, everything should be well installed and the code should run properly. However, considering the fact that we're using Keras,
-the installation of TensorFlow could not work. If so, follow `TensorFlow official installation guide <https://www.tensorflow.org/install?hl=fr>`_.
+the installation of TensorFlow could not work. If so, follow [TensorFlow official installation guide](https://www.tensorflow.org/install?hl=fr).
 
 *Note : if the installation of all the required libraries failed, just open the pipfile file, check the name of the used 
 libraries and their version and install them manually using pip.*
