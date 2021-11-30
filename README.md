@@ -1,4 +1,4 @@
-Conway's Game of Life
+Pokedex
 =====================
 
 This project is an implementation of a Pokedex using deep neural networks such as AlexNet and ResNet.
@@ -15,8 +15,6 @@ Go the root of the project (i.e. in the *projet* folder) and follow the instruct
 
 - verify that pip is installed :
 
-.. code-block:: console
-
     $ pip --version
 
 if not, `install it <https://pip.pypa.io/en/stable/installing/>`_.
@@ -25,13 +23,9 @@ When it is done, let's continue the installation :
 
 - install pipenv :
 
-.. code-block:: console
-
     $ pip install pipenv
 
 - once it is installed and well configured, run your environment :
-
-.. code-block:: console
 
     $ pipenv shell
     
@@ -47,8 +41,6 @@ Train a neural network :
 If you want to train a neural network, make sure you're in the virtual environment. Then, chose the config you want to run by 
 modifying the "config_example.yaml" file. After doing that, follow the instruction bellow :
 
-.. code-block:: console
-
     $ cd pokedex
     $ python -m classification -cf path_to_your_config_file
     
@@ -60,8 +52,6 @@ Visualize the training :
 You can either chose to use Keras's callback Tensorboard or our custom graphs. For the first one, place yourself 
 in one of your training's folder (assuming you're still in the *pokedex* directory) :
 
-.. code-block:: console
-
     $ cd training
     $ cd used_dataset_name
     $ cd your_training_name
@@ -71,8 +61,6 @@ Then just follow the instruction printed in the terminal.
 
 If you want to use our custom graphs, copy and paste the .csv of your training into the folder *metrics*. Then, run the 
 following command lines (assuming you're in the *pokedex* directory) :
-
-.. code-block:: console
 
     $ cd classification
     $ python models_metric_viz.py
@@ -86,8 +74,6 @@ Copy and paste the .h5 of your training into the folder *best_models*. Modify th
 accordingly to your model's name (don't forget to modify the "target_size" to match the size of the images used during the
 training. Then, just do the following (assuming you're in the *pokedex* directory) :
 
-.. code-block:: console
-
     $ cd classification
     $ python confusion_matrix.py
     
@@ -99,8 +85,6 @@ Inference (working Pokedex) :
 
 Now, if you want to test your trained model, put your model into the *best_models* folder. Then, do the following 
 (assuming you're in the *pokedex* directory):
-
-.. code-block:: console
 
     $ cd classification
     $ python predict.py
@@ -118,8 +102,6 @@ Split a dataset :
 Place your dataset folder into the *pokedex* directory and make sure you have a folder named *data* at the same
 level. Then, after modifying the variable "dataset_name" accordingly to your dataset name and run the following
 (assuming you're in the *pokedex* directory):
-
-.. code-block:: console
 
     $ cd classification
     $ python created_dataset.py
