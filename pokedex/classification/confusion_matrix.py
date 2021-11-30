@@ -38,60 +38,64 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
 disp.plot(cmap=plt.cm.Blues)
 plt.show()
 
-# TruePositive = np.diag(cm)
-# FalsePositive = []
-# for i in range(len(labels)):
-#     FalsePositive.append(sum(cm[:, i]) - cm[i, i])
-# FalseNegative = []
-# for i in range(len(labels)):
-#     FalseNegative.append(sum(cm[i, :]) - cm[i, i])
-#     TrueNegative = []
-# for i in range(len(labels)):
-#     temp = np.delete(cm, i, 0)  # delete ith row
-#     temp = np.delete(temp, i, 1)  # delete ith column
-#     TrueNegative.append(sum(sum(temp)))
+TruePositive = np.diag(cm)
+FalsePositive = []
+for i in range(len(labels)):
+    FalsePositive.append(sum(cm[:, i]) - cm[i, i])
+FalseNegative = []
+for i in range(len(labels)):
+    FalseNegative.append(sum(cm[i, :]) - cm[i, i])
+    TrueNegative = []
+for i in range(len(labels)):
+    temp = np.delete(cm, i, 0)  # delete ith row
+    temp = np.delete(temp, i, 1)  # delete ith column
+    TrueNegative.append(sum(sum(temp)))
+
+print(TruePositive)
+print(FalsePositive)
+print(FalseNegative)
+print(TrueNegative)
+
+data = {"TruePositive": TruePositive, "FalsePositive": FalsePositive, "FalseNegative": FalseNegative,
+        "TrueNegative": TrueNegative}
+metrics = pd.DataFrame(index=labels, data=data)
+metrics["TVP"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalseNegative)
+metrics["TFP"] = metrics.FalsePositive / (metrics.FalsePositive + metrics.TrueNegative)
+metrics["Precision"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalsePositive)
+kappa = sum(TruePositive) / validation_generator.samples
+
+try:
+    metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
+except FileNotFoundError:
+    Path.mkdir(Path.joinpath(parent_directory, "best_models/eval"))
+    metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
+
+# FP = cm.sum(axis=0) - np.diag(cm)
+# FN = cm.sum(axis=1) - np.diag(cm)
+# TP = np.diag(cm)
+# TN = cm.sum() - (FP + FN + TP)
 #
-# print(TruePositive)
-# print(FalsePositive)
-# print(FalseNegative)
-# print(TrueNegative)
+# # Sensitivity, hit rate, recall, or true positive rate
+# TPR = TP/(TP+FN)
+# # Specificity or true negative rate
+# TNR = TN/(TN+FP)
+# # Precision or positive predictive value
+# PPV = TP/(TP+FP)
+# # Negative predictive value
+# NPV = TN/(TN+FN)
+# # Fall out or false positive rate
+# FPR = FP/(FP+TN)
+# # False negative rate
+# FNR = FN/(TP+FN)
+# # False discovery rate
+# FDR = FP/(TP+FP)
 #
-# data = {"TruePositive": TruePositive, "FalsePositive": FalsePositive, "FalseNegative": FalseNegative,
-#         "TrueNegative": TrueNegative}
-# metrics = pd.DataFrame(index=labels, data=data)
-# metrics["TVP"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalseNegative)
-# metrics["TFP"] = metrics.FalsePositive / (metrics.FalsePositive + metrics.TrueNegative)
-# metrics["Precision"] = metrics.TruePositive / (metrics.TruePositive + metrics.FalsePositive)
-# kappa = sum(TruePositive) / validation_generator.samples
+# # Overall accuracy
+# ACC = (TP+TN)/(TP+FP+FN+TN)
 #
-# try:
-#     metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
-# except FileNotFoundError:
-#     Path.mkdir(Path.joinpath(parent_directory, "best_models/eval"))
-#     metrics.to_csv(f"{parent_directory}/best_models/eval/{chosen_model}_metrics_kappa={kappa}")
-
-FP = cm.sum(axis=0) - np.diag(cm)
-FN = cm.sum(axis=1) - np.diag(cm)
-TP = np.diag(cm)
-TN = cm.sum() - (FP + FN + TP)
-
-# Sensitivity, hit rate, recall, or true positive rate
-TPR = TP/(TP+FN)
-# Specificity or true negative rate
-TNR = TN/(TN+FP)
-# Precision or positive predictive value
-PPV = TP/(TP+FP)
-# Negative predictive value
-NPV = TN/(TN+FN)
-# Fall out or false positive rate
-FPR = FP/(FP+TN)
-# False negative rate
-FNR = FN/(TP+FN)
-# False discovery rate
-FDR = FP/(TP+FP)
-
-# Overall accuracy
-ACC = (TP+TN)/(TP+FP+FN+TN)
-
-print(f"Recall : {TPR}")
-print(f"Precision : {PPV}")
+# print(FP)
+# print(FN)
+# print(TP)
+# print(TN)
+# print(f"Recall : {TPR}")
+# print(f"Precision : {PPV}")
