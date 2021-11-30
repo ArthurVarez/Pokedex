@@ -116,6 +116,8 @@ To run this solution in Colab you need to :
 
     - upload the directory in your Drive Homepage
     - Open a new Colab Notebook
+    - editter le fichier de config et changer   root_folder_path: "/content/gdrive/MyDrive/Pokedex/pokedex"
+
     - excute this instructions :
     
         !pip install tensorflow
